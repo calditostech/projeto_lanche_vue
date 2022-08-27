@@ -31,13 +31,13 @@
                     <div class="col-md-6">
                         <div class="row mt-2">
                             <div class="col">
-                                <img src="imagens/padrao/pao_superior.png">
-                                <img src="imagens/padrao/alface.png">
-                                <img src="imagens/padrao/molho.png">
-                                <img src="imagens/padrao/molho.png">
-                                <img src="imagens/padrao/molho.png">
-                                <img src="imagens/padrao/hamburguer.png">
-                                <img src="imagens/padrao/pao_inferior.png">
+                                <img :src="pao[0]">
+                                <img :src="alface">
+                                <img :src="mostarda">
+                                <img :src="ketchup">
+                                <img :src="maionese">
+                                <img :src="hamburguer">
+                                <img :src="pao[1]">
                             </div>
                         </div>
                     </div>
@@ -50,11 +50,11 @@
                             <div class="card-header">TIPO DO PÃO</div>
                             <div class="card-body">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="gergelim" v-model="inputTipoPao">
                                     <label class="form-check-label">Gergelim</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="australiano" v-model="inputTipoPao">
                                     <label class="form-check-label">Australiano</label>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                               <div class="card-header">SALADA</div>
                               <div class="card-body">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="salada" v-model="inputSalada">
                                     <label class="form-check-label">Alface</label>
                                 </div>
                               </div>
@@ -82,15 +82,15 @@
                               <div class="card-header">MOLHOS</div>
                               <div class="card-body">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="ketchup" v-model="inputMolhos">
                                     <label class="form-check-label">Ketchup</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="mostarda" v-model="inputMolhos">
                                     <label class="form-check-label">Mostarda</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="maionese" v-model="inputMolhos">
                                     <label class="form-check-label">Maionese</label>
                                 </div>
                               </div>
@@ -104,15 +104,15 @@
                               <div class="card-header">TIPO HAMBURGEUR</div>
                               <div class="card-body">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="bovino" v-model="inputHamburguer">
                                     <label class="form-check-label">BOVINO</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="frango" v-model="inputHamburguer">
                                     <label class="form-check-label">FRANGO</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio">
+                                    <input class="form-check-input" type="radio" value="soja" v-model="inputHamburguer">
                                     <label class="form-check-label">SOJA</label>
                                 </div>
                               </div>
@@ -127,7 +127,62 @@
      
       <script>
          const vm = new Vue({
-            el: '#app'
+            el: '#app',
+            data: {
+               inputTipoPao: '',
+               inputSalada: [],
+               inputMolhos: [],
+               inputHamburguer:''
+            },
+            computed: {
+                pao() {
+                    switch(this.inputTipoPao) {
+                        case 'gergelim':
+                            return ['imagens/pao_gergelim_superior.png', 'imagens/pao_gergelim_inferior.png']
+                        case 'australiano':
+                            return ['imagens/pao_australiano_superior.png', 'imagens/pao_australiano_inferior.png']
+                        default:
+                            return ['imagens/padrao/pao_superior.png', 'imagens/padrao/pao_inferior.png']
+                    }
+                    return ['imagens/padrao/pao_superior.png', 'imagens/padrao/pao_inferior.png']
+                },
+                alface() {
+                    if(this.inputSalada.includes('salada')){
+                        return 'imagens/alface.png'
+                    }
+                    return 'imagens/padrao/alface.png'
+                },
+                ketchup() {
+                    if(this.inputMolhos.includes('ketchup')){
+                        return 'imagens/ketchup.png'
+                    }
+                    return 'imagens/padrao/molho.png'
+                },
+                maionese() {
+                    if(this.inputMolhos.includes('maionese')){
+                        return 'imagens/alface.png'
+                    }
+                    return 'imagens/padrao/molho.png'
+                },
+                mostarda() {
+                    if(this.inputMolhos.includes('mostarda')){
+                        return 'imagens/mostarda.png'
+                    }
+                    return 'imagens/padrao/molho.png'
+                },
+                hamburguer() {
+                    switch(this.inputHamburguer){
+                        case 'bovino':
+                             return 'imagens/bovino.png'
+                        case 'frango':
+                             return 'imagens/frango.png'
+                        case 'soja':
+                             return 'imagens/soja.png'
+                        default:
+                        return 'imagens/padrao/hamburguer.png'
+                    }
+                }
+            }
          })
       </script>
 </body>
